@@ -1,0 +1,21 @@
+import axios from 'axios';
+
+export const fetchBooks = async (query: string) => {
+  try {
+    const response = await axios.get(
+      `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=20`
+    );
+
+    return response.data.items?.map((book: any) => ({
+      bookId: book.id,
+      authors: book.volumeInfo?.authors || ['Unknown Author'],
+      title: book.volumeInfo?.title || 'No Title Available',
+      description: book.volumeInfo?.description || 'No Description Available',
+      image: book.volumeInfo?.imageLinks?.thumbnail || '',
+      link: book.volumeInfo?.infoLink || `https://books.google.com/books?id=${book.id}`
+    })) || [];
+  } catch (err) {
+    console.error('Google Books API error:', err);
+    return [];
+  }
+};

@@ -1,0 +1,12 @@
+{
+    "extends": "@tsconfig/node20/tsconfig.json",  // Best practices for Node.js 20+
+    "compilerOptions": {
+      "outDir": "./dist",               // Compiled JS output folder
+      "rootDir": "./server",            // Where your server TS files live
+      "moduleResolution": "nodenext",  // For Node.js ESM/CJS compatibility
+      "types": ["node"],                // Node.js types
+      "sourceMap": true                 // For debugging
+    },
+    "include": ["server/**/*"],         // Files to compile
+    "exclude": ["node_modules", "dist"] // Ignore these
+  }

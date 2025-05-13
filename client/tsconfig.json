@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+      "baseUrl": "./src",
+      "target": "ES2022",
+      "module": "ESNext",
+      "lib": ["ES2022", "DOM", "DOM.Iterable"],
+      "jsx": "react-jsx",
+      "strict": true,
+      "moduleResolution": "bundler",
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "noEmit": true,
+      "isolatedModules": true,
+      "paths": {
+        "@utils/*": ["src/utils/*"],
+        "@/*": ["./*"],
+        "~/*": ["./public/*"]
+      },
+      "types": ["vite/client"]
+    },
+    "exclude": ["node_modules", "dist"]
+  }

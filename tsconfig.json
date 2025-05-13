@@ -1,0 +1,47 @@
+{
+    "compilerOptions": {
+      /* Basic Options */
+      "target": "es6",
+      "module": "commonjs",
+      "lib": ["dom", "es6", "esnext"],
+      "outDir": "./dist",
+      "rootDir": "./",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      
+      
+
+  
+      /* Module Resolution Options */
+      "moduleResolution": "node",
+      "baseUrl": "client/src",
+      "paths": {
+        "@models/*": ["models/*"],
+        "@utils/*": ["utils/*"],
+        "@graphql/*": ["graphql/*"]
+      },
+  
+      /* Type Checking */
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "strictFunctionTypes": true,
+      "strictBindCallApply": true,
+      "strictPropertyInitialization": true,
+      "noImplicitThis": true,
+  
+      /* Additional Checks */
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noImplicitReturns": true,
+      "noFallthroughCasesInSwitch": true,
+  
+      /* Experimental Options */
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true
+    },
+    "include": ["client/src/**/*"],
+    "exclude": ["node_modules", "dist", "**/*.spec.ts"]
+  
+  }
