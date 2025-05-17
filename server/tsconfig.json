@@ -3,7 +3,7 @@
       "target": "ES2022",
       "module": "CommonJS",
       "outDir": "./dist",
-      "rootDir": "./",
+      "rootDir": "../",
       "strict": true,
       "esModuleInterop": true,
       "skipLibCheck": true,
@@ -19,6 +19,6 @@
         "@schemas/*": ["./server/schemas/*"]
       }
     },
-    "include": ["./**/*.ts"],
+    "include": ["./**/*.ts", "schemas/index.ts"],
     "exclude": ["node_modules", "client", "dist", "**/*.test.ts"]
   }

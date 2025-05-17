@@ -1,47 +1,11 @@
-import { gql } from 'apollo-server-express';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import typeDefs from './typeDefs';
+import resolvers from './resolvers';
 
-const typeDefs = gql`
-  type Book {
-    bookId: ID!
-    authors: [String]
-    description: String
-    title: String!
-    image: String
-    link: String
-  }
+export const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+});
 
-  type User {
-    _id: ID!
-    username: String!
-    email: String!
-    savedBooks: [Book]
-  }
-
-  type Auth {
-    token: ID!
-    user: User
-  }
-
-  input BookInput {
-    bookId: ID!
-    authors: [String]
-    description: String
-    title: String!
-    image: String
-    link: String
-  }
-
-  type Query {
-    me: User
-    searchBooks(query: String!): [Book]
-  }
-
-  type Mutation {
-    login(email: String!, password: String!): Auth
-    addUser(username: String!, email: String!, password: String!): Auth
-    saveBook(bookData: BookInput!): User
-    removeBook(bookId: ID!): User
-  }
-`;
-
-export default typeDefs;
+// Optional: Export individual parts if needed elsewhere
+export { typeDefs, resolvers };

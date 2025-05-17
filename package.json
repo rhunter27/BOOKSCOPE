@@ -18,5 +18,8 @@
     "@types/node": "^22.15.17",
     "concurrently": "^8.2.0",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "apollo-server-express": "^3.13.0"
   }
 }

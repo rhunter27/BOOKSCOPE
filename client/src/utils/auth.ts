@@ -1,5 +1,6 @@
 import { GraphQLError } from 'graphql';
 import jwt from 'jsonwebtoken';
+import { jwtDecode } from 'jwt-decode';
 
 export const signToken = (user: { _id: string; email: string; username: string }) => {
   const payload = { _id: user._id, email: user.email, username: user.username };
@@ -26,6 +27,15 @@ class Auth {
       localStorage.removeItem('id_token');
       window.location.assign('/');
     }
+
+    // Decode the token to get the user's profile
+  static getProfile(): any {
+    const token = this.getToken();
+    if (token) {
+      return jwtDecode(token);
+    }
+    return null;
+  }
   
     // Check if the user is logged in by verifying the token
     static loggedIn(): boolean {

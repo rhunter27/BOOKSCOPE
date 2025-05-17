@@ -1,4 +1,3 @@
-
 export default interface BookInput {
     bookId: string;
     authors: string[];

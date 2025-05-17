@@ -70,4 +70,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
         <button type="submit" className="submit-btn">
           Login
         </button>
-      </form>
+              </form>
+            </div>
+        );
+      };

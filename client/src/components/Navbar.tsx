@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 import Auth from '../utils/auth';
 import { Container, Navbar, Nav, Button } from 'react-bootstrap';
+// @ts-ignore
 import { LinkContainer } from 'react-router-bootstrap';
 
 const Navigation: React.FC = () => {
