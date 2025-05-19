@@ -1,7 +1,7 @@
 import User from '../../server/models/User';
 import { AuthenticationError } from 'apollo-server-express';
 import { ObjectId } from 'mongoose';
-import { signToken } from 'auth';
+import { signToken } from '../src/services/auth';
 import Context from '../interfaces/Context';
 import IUser from '../interfaces/User';
 import BookInput from '../interfaces/Book';
@@ -26,11 +26,11 @@ const resolvers = {
       if (!correctPw) {
         throw new AuthenticationError('Incorrect credentials');
       }
-      const token = signToken({
-        _id: user._id.toString(),
-        email: user.email,
-        username: user.username
-      });
+      const token = signToken(
+        user.username,
+        user.email,
+        user._id.toString()
+      );
       return { token, user };
     },
     saveBook: async (_: any, { bookData }: { bookData: BookInput }, context: Context) => {
