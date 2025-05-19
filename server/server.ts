@@ -1,81 +1,74 @@
 import express from 'express';
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+import { json } from 'body-parser';
 import mongoose from 'mongoose';
-import typeDefs from './schemas/typeDefs';
-import resolvers from './schemas/resolvers';
-import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import cors from 'cors';
+import typeDefs from './schemas/typeDefs.js'; // Import your GraphQL type definitions
+import resolvers from './schemas/resolvers'; // Import your GraphQL resolvers
+import authMiddleware from '../client/src/utils/auth.js'; // Import your authentication middleware
+import jwt from 'jsonwebtoken'; // Import jsonwebtoken for token verification
 
-// 1. Environment Setup
+// Load environment variables
 dotenv.config();
 
-// 2. Type Definitions
-interface UserTokenPayload {
-  _id: string;
-  email: string;
-  username: string;
-  iat?: number;  // JWT issued-at timestamp
-  exp?: number;  // JWT expiration timestamp
-}
+const PORT = process.env.PORT || 3001;
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/yourDatabaseName';
 
-interface GraphQLContext {
-  user?: UserTokenPayload;
-}
+const startServer = async () => {
+  // Initialize Express app
+  const app = express();
 
-// 3. Express Application
-const app: express.Application = express();
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// 4. Authentication Middleware
-const authenticate = (token: string): UserTokenPayload | undefined => {
-  try {
-    if (!token) return undefined;
-    return jwt.verify(token, process.env.JWT_SECRET!) as UserTokenPayload;
-  } catch (err) {
-    console.error('Authentication error:', err);
-    return undefined;
-  }
-};
-
-// 5. Database Connection
-const connectDB = async (): Promise<void> => {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI!);
-    console.log('MongoDB connected');
-  } catch (err) {
-    console.error('Database connection error:', err);
-    process.exit(1);
-  }
-};
-
-// 6. Apollo Server Setup
-const startApolloServer = async () => {
-  await connectDB();
-
-  const apolloServer = new ApolloServer({
+  // Create Apollo Server
+  const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({ req }): GraphQLContext => {
-      const token = req.headers.authorization?.replace('Bearer ', '') || '';
-      const user = authenticate(token);
-      return { user };
-    },
   });
 
-  await apolloServer.start();
- 
-  const PORT = process.env.PORT || 4000;
+  // Start Apollo Server
+  await server.start();
+
+  const authMiddleware = ({ req }: { req: any }) => {
+    const authHeader = req.headers.authorization;
+  
+    if (!authHeader) {
+      return null; // No token, return null
+    }
+  
+    const token = authHeader.split('Bearer ')[1];
+    if (!token) {
+      return null; // Invalid token format
+    }
+  
+    try {
+      // Verify the token and return the decoded user
+      const decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
+      return decodedToken; // Attach this to the context
+    } catch (err) {
+      console.error('Invalid or expired token:', err);
+      return null; // Return null if token is invalid
+    }
+  };
+  
+
+  // Connect to MongoDB
+  mongoose
+    .connect(MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    } as mongoose.ConnectOptions)
+    .then(() => console.log('Connected to MongoDB'))
+    .catch((err) => console.error('Error connecting to MongoDB:', err));
+
+  // Start the Express server
   app.listen(PORT, () => {
-    console.log(`Server ready at http://localhost:${PORT}${apolloServer.graphqlPath}`);
+    console.log(`Server is running on http://localhost:${PORT}/graphql`);
   });
 };
 
-// 7. Start the Server
-startApolloServer().catch(err => {
-  console.error('Server startup error:', err);
-  process.exit(1);
+startServer().catch((err) => {
+  console.error('Error starting the server:', err);
 });
+
+
+export default authMiddleware;
