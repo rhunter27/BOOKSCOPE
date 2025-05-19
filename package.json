@@ -8,23 +8,13 @@
     "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
     "install": "cd server && npm i && cd ../client && npm i",
     "build": "concurrently \"cd server && npm run build\" \"cd client && npm run build\"",
-    "render-build": "npm install && npm run build"
+    "render-build":"npm install && npm run build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.5",
-    "@types/dotenv": "^6.1.1",
-    "@types/mongoose": "^5.11.96",
-    "@types/node": "^22.15.17",
-    "concurrently": "^8.2.0",
-    "typescript": "^5.8.3"
-  },
-  "dependencies": {
-    "@apollo/server": "^4.12.1",
-    "apollo-server-express": "^3.13.0",
-    "dotenv": "^16.5.0",
-    "mongoose": "^8.15.0"
+    "concurrently": "^8.2.0"
   }
 }
+
