@@ -1,13 +1,11 @@
 import express from 'express';
 import { ApolloServer } from '@apollo/server';
-import { expressMiddleware } from '@apollo/server/express4';
-import { json } from 'body-parser';
+// Removed unused import of expressMiddleware
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import typeDefs from './schemas/typeDefs.js'; // Import your GraphQL type definitions
 import resolvers from './schemas/resolvers'; // Import your GraphQL resolvers
 import authMiddleware from '../client/src/utils/auth.js'; // Import your authentication middleware
-import jwt from 'jsonwebtoken'; // Import jsonwebtoken for token verification
 
 // Load environment variables
 dotenv.config();
@@ -28,27 +26,7 @@ const startServer = async () => {
   // Start Apollo Server
   await server.start();
 
-  const authMiddleware = ({ req }: { req: any }) => {
-    const authHeader = req.headers.authorization;
-  
-    if (!authHeader) {
-      return null; // No token, return null
-    }
-  
-    const token = authHeader.split('Bearer ')[1];
-    if (!token) {
-      return null; // Invalid token format
-    }
-  
-    try {
-      // Verify the token and return the decoded user
-      const decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
-      return decodedToken; // Attach this to the context
-    } catch (err) {
-      console.error('Invalid or expired token:', err);
-      return null; // Return null if token is invalid
-    }
-  };
+  // Use the imported authMiddleware instead of redefining it
   
 
   // Connect to MongoDB

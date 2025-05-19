@@ -15,7 +15,8 @@
       "paths": {
         "@utils/*": ["src/utils/*"],
         "@/*": ["./*"],
-        "~/*": ["./public/*"]
+        "~/*": ["./public/*"],
+        "@models/*": ["models/*"]
       },
       "types": ["vite/client"]
     },

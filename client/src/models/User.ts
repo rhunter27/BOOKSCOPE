@@ -1,8 +1,7 @@
-import type { Book } from './Book.js';
-
+import { Book } from './Book';
 export interface User {
-  username: string | null;
-  email: string | null;
-  password: string | null;
+  username: string;
+  email: string;
+  password: string;
   savedBooks: Book[];
 }

@@ -1,6 +1,5 @@
 import { Schema, model, Document, Model } from 'mongoose';
 import bcrypt from 'bcrypt';
-import ImportedUserSchema from './User';
 
 
 // Interface for TypeScript type checking

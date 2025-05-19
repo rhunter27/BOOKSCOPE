@@ -1,6 +1,5 @@
-import User from '../../server/models/User';
+import User from '../models/User';
 import { AuthenticationError } from 'apollo-server-express';
-import { ObjectId } from 'mongoose';
 import { signToken } from '../src/services/auth';
 import Context from '../interfaces/Context';
 import IUser from '../interfaces/User';
